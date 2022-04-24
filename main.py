@@ -135,3 +135,4 @@ if __name__ ==  '__main__':
     else:
         outputLocation += "random/"
         perform_style(load_image(sys.argv[2]),outputLocation)
+
