@@ -1,3 +1,4 @@
+#%%
 import torch
 import torch.nn as nn
 import torchvision.transforms as transforms
@@ -10,9 +11,8 @@ import sys
 import os
 import torch.nn.functional as F
 
-
+#%%
 #model = models.vgg19(pretrained=True).features
-
 class VGG(nn.Module):
     def __init__(self):
         super(VGG, self).__init__()
@@ -30,8 +30,8 @@ class VGG(nn.Module):
                 features.append(x)
 
         return features
-
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 imsize = 356
 loader = transforms.Compose(
     [
@@ -53,14 +53,14 @@ def load_image(image_name):
 
 
 count = 0
-style_img = load_image("Style.jpg")
+# style_img = load_image("Style.jpg")
 model = VGG().to(device).eval()
 total_steps = 200
 learning_rate = 0.001
 alpha = 1
 beta = 0.01
 
-def perform_style(images,outputLocation):
+def perform_style(images,outputLocation,style_img):
     global count
     original_img = [transforms.Resize(size=size)(images) for size in (1, 3, 356)][2]
     generated = original_img.clone().requires_grad_(True)
@@ -82,7 +82,7 @@ def perform_style(images,outputLocation):
         # iterate through all the features for the chosen layers
         for gen_feature, orig_feature, style_feature in zip(
                 generated_features, original_img_features, style_features
-        ):
+            ):
             # batch_size will just be 1
             batch_size, channel, height, width = gen_feature.shape
             original_loss += torch.mean((gen_feature - orig_feature) ** 2)
@@ -110,29 +110,40 @@ def perform_style(images,outputLocation):
     save_image(original_img, name)
     count += 1
 
-def perform_styles(trainloader,outputLocation):
+def perform_styles(trainloader,outputLocation,style_img):
     for i, data in enumerate(trainloader, 0):
         images, labels = data
         images = images.cuda()
-        perform_style(images,outputLocation)
-
+        perform_style(images,outputLocation,style_img)
 
 
 if __name__ ==  '__main__':
     outputLocation="Output/"
-    if sys.argv[1]!="random":
-        if sys.argv[1] == 'cifar10':
-            trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                                     download=True, transform=transform)
-            outputLocation += "cifar10/"
-        elif sys.argv[1] == 'cifar100':
-            trainset = torchvision.datasets.CIFAR100(root='./data', train=True,
-                                                     download=True, transform=transform)
-            outputLocation += "cifar100/"
-        trainloader = torch.utils.data.DataLoader(trainset, batch_size=1,
-                                                      shuffle=True, num_workers=2)
-        perform_styles(trainloader,outputLocation)
+    if sys.argv[1] == "random":
+      outputLocation += "random/"
+      try:
+        style_image  = load_image(sys.argv[3])
+      except IndexError:
+        print("No style image input")
+        sys.exit(1)
+      perform_style(load_image(sys.argv[2]),outputLocation,style_image)
+      sys.exit(0)
+        
     else:
-        outputLocation += "random/"
-        perform_style(load_image(sys.argv[2]),outputLocation)
-
+      if sys.argv[1] == 'cifar10':
+        trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+          download=True, transform=transform)
+        outputLocation += "cifar10/"
+      elif sys.argv[1] == 'cifar100':
+        trainset = torchvision.datasets.CIFAR100(root='./data', train=True,
+          download=True, transform=transform)
+        outputLocation += "cifar100/"
+      try:
+          style_image  = load_image(sys.argv[2])
+      except IndexError:
+        print("No style image input")
+        sys.exit(1)
+      trainloader = torch.utils.data.DataLoader(trainset, batch_size=1,
+        shuffle=True, num_workers=2)
+      perform_styles(trainloader,outputLocation)
+      sys.exit(0)
