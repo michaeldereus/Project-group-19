@@ -119,7 +119,7 @@ def perform_styles(trainloader,out_location,style_img,total_steps):
     perform_style(images,out_location,style_img,total_steps)
 
 if __name__ ==  '__main__':
-  total_steps = 0
+  total_steps = 200
   out_location = "Output/"
   if "style-level" in sys.argv:
       level = sys.argv.index("style-level") + 1
@@ -130,8 +130,7 @@ if __name__ ==  '__main__':
           total_steps = 300
       elif sys.argv[level] == '3':
           total_steps = 900
-      else:
-        total_steps = 200
+          
       print(level, total_steps)
 
   if sys.argv[1] == "random":
