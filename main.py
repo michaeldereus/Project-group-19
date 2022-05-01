@@ -55,13 +55,15 @@ def load_image(image_name):
 count = 0
 # style_img = load_image("Style.jpg")
 model = VGG().to(device).eval()
-total_steps = 500
-learning_rate = 0.3
+total_steps = 300
+learning_rate = 0.05
 alpha = 1
 beta = 0.02
 
 def perform_style(images,out_location,style_img):
   global count
+  loss_hist = []
+  
   original_img = [transforms.Resize(size=size)(images) for size in (1, 3, 356)][2]
   generated = original_img.clone().requires_grad_(True)
 
@@ -86,7 +88,6 @@ def perform_style(images,out_location,style_img):
       # batch_size will just be 1
       batch_size, channel, height, width = gen_feature.shape
       original_loss += torch.mean((gen_feature - orig_feature) ** 2)
-      print(f"og loss: {original_loss}")
       # Compute Gram Matrix of generated
       G = gen_feature.view(channel, height * width).mm(
         gen_feature.view(channel, height * width).t()
@@ -96,14 +97,14 @@ def perform_style(images,out_location,style_img):
         style_feature.view(channel, height * width).t()
       )
       style_loss += torch.mean((G - A) ** 2)
-      print(f"style loss: {style_loss}\n")
 
     total_loss = alpha * original_loss + beta * style_loss
+    loss_hist.append(total_loss)
     optimizer.zero_grad()
     total_loss.backward()
     optimizer.step()
 
-  print(total_loss)
+  print(loss_hist)
   if not os.path.isdir(out_location):
       os.mkdir(out_location)
   name = out_location + str(count) + "generated.png"
@@ -118,9 +119,9 @@ def perform_styles(trainloader,out_location,style_img):
     images = images.cuda()
     perform_style(images,out_location,style_img)
 
-
 if __name__ ==  '__main__':
   out_location = "Output/"
+  
   if sys.argv[1] == "random":
     out_location += "random/"
     try:
