@@ -120,6 +120,16 @@ def perform_styles(trainloader,outputLocation):
 
 if __name__ ==  '__main__':
     outputLocation="Output/"
+    global total_steps
+    if "art-level" in sys.argv:
+        level = sys.argv.index("art-level") + 1
+        if level == 1:
+            total_steps = 100
+        elif level == 2:
+            total_steps = 300
+        elif level == 3:
+            total_steps = 900
+
     if sys.argv[1]!="random":
         if sys.argv[1] == 'cifar10':
             trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
