@@ -25,3 +25,7 @@ To perfrom style transfer on random image, run the following command
 _python main.py random input-image-name style-image-name_
   
 All the output will be generated in output folder
+
+## Results
+
+<img src="Output/random/results.png" width = "1200" height = "650">
