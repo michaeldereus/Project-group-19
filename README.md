@@ -2,7 +2,7 @@
 The goal of Image Style Transfer is to take an input of two images, one for style and another for
 content. The style image represents the texture, colors and curvatures, while the content image
 represents the higher level objects and how they are arranged. The output is a combination of both
-the style image and the content image.
+the style image and the content image. 
 
 ## Setup
 1. This project was made with torch==1.9.0 and torchvision==0.10.0+cu111 with Python 3.9.12
@@ -34,8 +34,8 @@ _python main.py random input-image-name style-image-name style-level 2_
 
 _python main.py random input-image-name style-image-name style-level 3_
 
-Here, 1, 2 and 3 are three level of style where 3 is the highest intensity and 1 is the lowest.
+Style-level 1, 2 and 3 are three levels of styl where increasing this value creates a more stylized image.
 
 ## Results
 
-<img src="Output/random/results.png" width = "1200" height = "650">
+<img src="Output/random/results.png" width = "1150" height = "725">
