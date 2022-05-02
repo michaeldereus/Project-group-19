@@ -136,11 +136,8 @@ def perform_style(images,out_location,style_img, style_img_name):
   name = out_location + str(count) + "original.png"
   save_image(original_img, name)
   count += 1
-  
-  
-  
-  
-def perform_styles(trainloader,out_location,style_img,total_steps, style_img_name):
+
+def perform_styles(trainloader,out_location,style_img,total_steps, total_steps):
   for i, data in enumerate(trainloader, 0):
     images, labels = data
     images = images.cuda()
