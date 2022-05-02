@@ -7,9 +7,11 @@ the style image and the content image.
 ## Setup
 1. This project was made with torch==1.9.0 and torchvision==0.10.0+cu111 with Python 3.9.12
 2. Git clone this repo, or put main.py into a folder where there is also an 'Output' folder and a 'data' folder. The output folder must contain three subfolders: 'random', 'cifar10', and 'cifar100', otherwise the code will not run.
-4. Install the following dependencies
-
-    _pip install torch torchvision_
+4. Run the following commands in an elevated CMD prompt. If 'python3' doesnt work then try 'python'.
+    _python3 -m pip install --upgrade pip_
+    _python3 -m pip install --upgrade Pillow_
+    _pip install torch torchvision matplotlib numpy PIL_
+    
 
 ## Run
 To perfrom style transfer on cifar-10 dataset, run the following command
@@ -34,7 +36,7 @@ _python main.py random input-image-name style-image-name style-level 2_
 
 _python main.py random input-image-name style-image-name style-level 3_
 
-Style-level 1, 2 and 3 are three levels of styl where increasing this value creates a more stylized image.
+Style-level 1, 2 and 3 are three levels of stylization where increasing this value creates a more stylized output.
 
 ## Results
 
