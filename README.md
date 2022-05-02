@@ -52,6 +52,9 @@ Style-level 1, 2 and 3 are three levels of stylization where increasing this val
 | ------------- | ------------- | ------------- | ------------- |
 | <img src="Output/random/Style1_loss.png" width = "320" height = "240">  | <img src="Output/random/Style2_loss.png" width = "320" height = "240">  | <img src="Output/random/Style3_loss.png" width = "320" height = "240">  | <img src="Output/random/Style4_loss.png" width = "320" height = "240">  |
 
+Presentation:
+https://www.youtube.com/watch?v=kFeYJ3tsWMU&t=6s
+
 ## References
 - https://www.tensorflow.org/hub/tutorials/tf2_arbitrary_image_stylization
 - Gatys, Leon A., Alexander S. Ecker, and Matthias Bethge. “Image style transfer using
