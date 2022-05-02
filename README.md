@@ -53,4 +53,9 @@ Style-level 1, 2 and 3 are three levels of stylization where increasing this val
 | <img src="Output/random/Style1_loss.png" width = "320" height = "240">  | <img src="Output/random/Style2_loss.png" width = "320" height = "240">  | <img src="Output/random/Style3_loss.png" width = "320" height = "240">  | <img src="Output/random/Style4_loss.png" width = "320" height = "240">  |
 
 ## References
-
+- https://www.tensorflow.org/hub/tutorials/tf2_arbitrary_image_stylization
+- Gatys, Leon A., Alexander S. Ecker, and Matthias Bethge. “Image style transfer using
+convolutional neural networks.” Proceedings of the IEEE conference on computer vision and
+pattern recognition. 2016. https://arxiv.org/abs/1508.06576
+- Selim, Elgharib, M., & Doyle, L. (2016). Painting style transfer for head portraits using
+convolutional neural networks. ACM Transactions on Graphics, 35(4), 1–18. https://dl.acm.org/doi/10.1145/2897824.2925968
