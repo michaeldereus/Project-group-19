@@ -25,3 +25,17 @@ To perfrom style transfer on random image, run the following command
 _python main.py random input-image-name style-image-name_
   
 All the output will be generated in output folder
+
+To tune the style, add another parameter style-level and run the command
+
+_python main.py random input-image-name style-image-name style-level 1_
+
+_python main.py random input-image-name style-image-name style-level 2_
+
+_python main.py random input-image-name style-image-name style-level 3_
+
+Here, 1, 2 and 3 are three level of style where 3 is the highest intensity and 1 is the lowest.
+
+## Results
+
+<img src="Output/random/results.png" width = "1200" height = "650">

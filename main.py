@@ -55,14 +55,13 @@ def load_image(image_name):
 count = 0
 # style_img = load_image("Style.jpg")
 model = VGG().to(device).eval()
-total_steps = 300
 learning_rate = 0.05
 alpha = 1
 beta = 0.02
 loss_hist = []
 
 def graph_loss(loss_hist, out_location, style_img_name):
-  # plt.style.use('ggplot')
+      # plt.style.use('ggplot')
   # print(loss_hist)
   style_img_name = style_img_name.split('.')[0]
   save_name = f"{out_location}/{style_img_name}_loss.png"
@@ -95,8 +94,8 @@ def perform_style(images,out_location,style_img, style_img_name):
   # generated = original_img.clone().requires_grad_(True)
 
   optimizer = optim.Adam([generated], lr=learning_rate)
-
-  for step in range(total_steps):
+  print(steps)
+  for step in range(steps):
     # Obtain the convolution features in specifically chosen layers
     generated_features = model(generated)
     original_img_features = model(original_img)
@@ -141,15 +140,27 @@ def perform_style(images,out_location,style_img, style_img_name):
   
   
   
-def perform_styles(trainloader,out_location,style_img, style_img_name):
+def perform_styles(trainloader,out_location,style_img,total_steps, style_img_name):
   for i, data in enumerate(trainloader, 0):
     images, labels = data
     images = images.cuda()
-    perform_style(images,out_location,style_img)
+    perform_style(images,out_location,style_img,total_steps)
 
 if __name__ ==  '__main__':
+  total_steps = 200
   out_location = "Output/"
-  
+  if "style-level" in sys.argv:
+      level = sys.argv.index("style-level") + 1
+
+      if sys.argv[level] == '1':
+          total_steps = 10
+      elif sys.argv[level] == '2':
+          total_steps = 300
+      elif sys.argv[level] == '3':
+          total_steps = 900
+          
+      print(level, total_steps)
+
   if sys.argv[1] == "random":
     out_location += "random/"
     try:
@@ -159,7 +170,7 @@ if __name__ ==  '__main__':
     except:
       print("Filure loading original or style image")
       sys.exit(1)
-    perform_style(og_img,out_location,style_image,style_name)
+    perform_style(og_img,out_location,style_image,total_steps,style_name)
     sys.exit(0)
       
   else:
@@ -179,7 +190,8 @@ if __name__ ==  '__main__':
       sys.exit(1)
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=1,
       shuffle=True, num_workers=2)
-    perform_styles(trainloader,out_location,style_image,style_name)
+    perform_styles(trainloader,out_location,style_image,total_steps, style_name)
     # graph_loss(loss_hist, total_steps, style_name, out_location)
+    sys.exit(0)
   
   
